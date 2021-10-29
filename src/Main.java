@@ -32,10 +32,8 @@ public class Main {
         if ((fullNameTaskFour.contains("Ё") || fullNameTaskFour.contains("ё"))) {
             fullNameTaskFour = fullNameTaskFour.replace('Ё', 'Е');
             fullNameTaskFour = fullNameTaskFour.replace('ё', 'е');
-            System.out.println("Данные ФИО сотрудника — " + fullNameTaskFour);
-        } else {
-            System.out.println("Данные ФИО сотрудника — " + fullNameTaskFour);
         }
+        System.out.println("Данные ФИО сотрудника — " + fullNameTaskFour);
         // Задание 5
         System.out.println("Задание 5");
         String fullNameTaskFive = "Ivanov Ivan Ivanovich";
@@ -44,7 +42,8 @@ public class Main {
         int indexLastSpace = fullNameTaskFive.lastIndexOf(symbolSpace);
         lastName = fullNameTaskFive.substring(beginIndex, indexFirstSpace);
         firstName = fullNameTaskFive.substring(indexFirstSpace + 1, indexLastSpace);
-        middleName = fullNameTaskFive.substring(indexLastSpace + 1, fullNameTaskFive.length());
+        //DisterRU в случае, когда взять до конца длины, второй аргумент излишний
+        middleName = fullNameTaskFive.substring(indexLastSpace + 1 );
 
         System.out.println("Имя сотрудника — " + firstName);
         System.out.println("Фамилия сотрудника — " + lastName);
@@ -52,26 +51,31 @@ public class Main {
         // Задание 6
         System.out.println("Задание 6");
         String fullNameTaskSix = "ivanov ivan ivanovich";
-        // разбить на отдельные слова, каждое слово перевести в StringBuilder, изменить первый символ
         words = fullNameTaskSix.split(symbolSpace);
+        // самостоятельный вариант
+        // разбить на отдельные слова, каждое слово перевести в StringBuilder, изменить первый символ
+        //for (int i = 0; i < words.length; ++i) {
+        //    StringBuilder sbPartName = new StringBuilder(words[i]);
+        //    char symbolToUpperCase = sbPartName.charAt(0);
+        //    sbPartName.setCharAt(0, Character.toUpperCase(symbolToUpperCase));
+        //    words[i] = sbPartName.toString();
+        //}
+        // from DisterRU
+        // Можно вместо StringBuilder использовать массив чаров через char[] arr = words[i].toCharArray(),
+        // в нем менять символ, а потом words[i] = new String(arr);
         for (int i = 0; i < words.length; ++i) {
-            StringBuilder sbPartName = new StringBuilder(words[i]);
-            char symbolToUpperCase = sbPartName.charAt(0);
-            sbPartName.setCharAt(0, Character.toUpperCase(symbolToUpperCase));
-            words[i] = sbPartName.toString();
+             char[] arrItem = words[i].toCharArray();
+            arrItem[0] = Character.toUpperCase(arrItem[0]);
+             words[i] = new String(arrItem);
         }
         String fullNameTaskSixTrue = words[0] + symbolSpace + words[1] + symbolSpace + words[2];
         System.out.println("Верное написание Ф. И. О. сотрудника с заглавных букв — " + fullNameTaskSixTrue);
         // переписать в массив, работать с элементами массива, вернуть в строку
-        char nameToCharArray[] = fullNameTaskSix.toCharArray();
-        boolean flagCheck = true;
-        for (int i = 0; i < nameToCharArray.length; ++i) {
-            if (flagCheck) {
-                nameToCharArray[i] = Character.toUpperCase(nameToCharArray[i]);
-                flagCheck = false;
-            }
+        char [] nameToCharArray = fullNameTaskSix.toCharArray();
+        nameToCharArray[0] = Character.toUpperCase(nameToCharArray[0]);
+        for (int i = 1; i < nameToCharArray.length-1; ++i) {
             if (Character.isWhitespace(nameToCharArray[i])) {
-                flagCheck = true;
+                nameToCharArray[i + 1] = Character.toUpperCase(nameToCharArray[i + 1]);
             }
         }
         fullNameTaskSixTrue = new String(nameToCharArray);
@@ -90,20 +94,17 @@ public class Main {
         System.out.println(stringResult);
         // Задание 8
         System.out.println("Задание 8");
-        String someLetters = "aabccddefgghiijjkk";
+        String someLetters = "aaaabccddefgghiijjkk";
         char arraySomeLetters[] = someLetters.toCharArray();
-        char allLetter[] = new char[26]; // по числу букв в алфавите
-        for (int i = 0; i < arraySomeLetters.length; ++i) {
-            if (someLetters.indexOf(arraySomeLetters[i]) != someLetters.lastIndexOf(arraySomeLetters[i])) {
-                int indexLetter = (int) (arraySomeLetters[i] - 'a');  // позиция буквы в массиве
-                allLetter[indexLetter] = arraySomeLetters[i];
-            }
-        }
-        // печать только букв
-        for (char element : allLetter) {
-            if (Character.isLetter(element)) {
-                System.out.print(element);
-            }
+        char doubleLetter = ' ';
+        for (int i = 0; i < arraySomeLetters.length-1; ++i) {
+             if (doubleLetter == arraySomeLetters[i]){
+                 continue;
+             };
+             if(arraySomeLetters[i] == arraySomeLetters[i+1]){
+                 doubleLetter = arraySomeLetters[i];
+                 System.out.print(doubleLetter );
+             }
         }
     }
 }
